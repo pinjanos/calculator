@@ -13,6 +13,29 @@ const buffer = [];
 
 const opCallBack = opName => () => {
     let currentVal = parseFloat($input.value);
+
+    if (opName === "percent") {
+        currentVal *= 0.01;
+        $input.value = currentVal;
+    }
+    else {
+        if (buffer && buffer.length) {
+            buffer.push({ value: currentVal });
+
+            const result = evaluate(buffer);
+
+            buffer.push({ value: result });
+            buffer.push({ value: opName });
+
+            $input.value = "";
+        }
+        else {
+            buffer.push({ value: currentVal });
+            buffer.push({ value: opName });
+            $input.value = "";
+        }
+    }
+
 };
 
 
@@ -41,7 +64,7 @@ const evaluate = buffer => {
 
 
 for (const opName of ["add", "sub", "multi", "divi"]) {
-    document.querySelector('.cell-operator[op=${opName}]')
+    document.querySelector(".cell-operator[op=${opName}]")
         .onclick = opCallBack(opName);
 };
 
@@ -58,57 +81,3 @@ document.querySelector(".cell[op=clear]").onclick = () => {
     $input.value = 0;
     buffer.length = 0;
 };
-
-
-
-// class Calculator {
-//     constructor(previousElement, currentElement) {
-//         this.previousElement = previousElement
-//         this.currentElement = currentElement
-//         this.clear()
-//     }
-
-//     clear() {
-//         this.current = ''
-//         this.previous = ''
-//         this.operation = undefined
-//     }
-
-//     appendNumber(number) {
-//     this.current = number
-//     }
-
-//     chooseOperation(operation) {
-
-//     }
-
-
-//     compute() {
-
-//     }
-
-//     updateDisplay() {
-//     this.currentElement.innerText = current
-//     }
-// }
-
-
-
-
-
-// const numberBtn = document.querySelectorAll('[data-number]');
-// const operationBtn = document.querySelectorAll('[data-operation]');
-// const egalBtn = document.querySelector('[data-egal]');
-// const clearBtn = document.querySelector('[data-clear]');
-// const previousElement = document.querySelector('[data-previous]');
-// const currentElement = document.querySelector('[data-current]');
-
-
-// const calculator = new Calculator(previousElement, currentElement)
-
-// numberBtn.forEach(numberBtn => {
-//     numberBtn.addEventListener('click', () => {
-//         calculator.appendNumber(numberBtn.innerText)
-//         calculator.updateDisplay()
-//     })
-// })
