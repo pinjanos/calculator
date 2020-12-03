@@ -64,7 +64,7 @@ const evaluate = buffer => {
 
 
 for (const opName of ["add", "sub", "multi", "divi"]) {
-    document.querySelector(".cell-operator[op=${opName}]")
+    document.querySelector(`.cell-operator[op=${opName}]`)
         .onclick = opCallBack(opName);
 };
 
